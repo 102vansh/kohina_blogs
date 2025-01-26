@@ -52,12 +52,13 @@ exports.logout =async(req,res,next)=>{
     try{
 res.status(200).cookie('token',null,{
     expires:new Date(Date.now()),
-   httpOnly:true
+   httpOnly:true,
+})
    .json({
     success:true,
     message:"User logged out successfully"
    })
-    })
+    
 
     }catch(error){
         return next(error);

@@ -42,3 +42,4 @@ exports.generateContent = async (req, res) => {
     });
   }
 };
+
