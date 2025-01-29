@@ -10,7 +10,7 @@ export const UserProvider = ({ children }) => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/v1/user/getmyprofile', {
+      const response = await axios.get('https://kohina-blogs.onrender.com/api/v1/user/getmyprofile', {
         withCredentials: true,
       });
       setUser(response.data.user);

@@ -15,7 +15,7 @@ const BlogList = ({ blogs }) => {
     e.preventDefault(); // Prevent navigation
     try {
       await axios.post(
-        `http://localhost:3000/api/v1/blog/likeblog/${id}`,
+        `https://kohina-blogs.onrender.com/api/v1/blog/likeblog/${id}`,
         {},
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -32,7 +32,7 @@ const BlogList = ({ blogs }) => {
     e.preventDefault(); // Prevent navigation
     try {
       await axios.post(
-        `http://localhost:3000/api/v1/blog/increaseview/${id}`,
+        `https://kohina-blogs.onrender.com/api/v1/blog/increaseview/${id}`,
         {},
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -50,7 +50,7 @@ const BlogList = ({ blogs }) => {
     e.preventDefault();
     try {
     const response  =  await axios.post(
-        `http://localhost:3000/api/v1/blog/commentblog/${id}`,
+        `https://kohina-blogs.onrender.com/api/v1/blog/commentblog/${id}`,
         { comment },
         {
           headers: { 'Content-Type': 'multipart/form-data' },

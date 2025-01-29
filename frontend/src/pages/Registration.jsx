@@ -17,7 +17,7 @@ function Registration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/auth/register', {
+      const response = await axios.post('https://kohina-blogs.onrender.com/api/v1/auth/register', {
         name,
         email,
         password,

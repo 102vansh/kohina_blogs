@@ -35,7 +35,7 @@ const BlogDetail = ({ blog }) => {
   };
   const getLike = async() =>{
     try{
-const response  = await axios.get(`http://localhost:3000/api/v1/blog/getlike/${blog._id}`,{withCredentials:true})
+const response  = await axios.get(`https://kohina-blogs.onrender.com/api/v1/blog/getlike/${blog._id}`,{withCredentials:true})
 console.log(response.data)
 setLikes(response.data.likes)
 console.log(likes)
@@ -50,7 +50,7 @@ getLike()
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/v1/blog/deleteblog/${blog._id}`, {
+      await axios.delete(`https://kohina-blogs.onrender.com/api/v1/blog/deleteblog/${blog._id}`, {
         withCredentials: true,
       });
       window.location.href = '/';
@@ -63,7 +63,7 @@ getLike()
     e.preventDefault();
     try {
     const response  =  await axios.post(
-        `http://localhost:3000/api/v1/blog/commentblog/${blog._id}`,
+        `https://kohina-blogs.onrender.com/api/v1/blog/commentblog/${blog._id}`,
         { comment },
         {
           headers: { 'Content-Type': 'multipart/form-data' },

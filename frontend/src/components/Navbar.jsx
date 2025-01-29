@@ -43,7 +43,7 @@ const {user,setUser} = useUser()
 
   const logout = async () => {
     try {
-      await axios.get('http://localhost:3000/api/v1/auth/logout', { withCredentials: true });
+      await axios.get('https://kohina-blogs.onrender.com/api/v1/auth/logout', { withCredentials: true });
       navigate('/login');
       setUser('')
     } catch (error) {
@@ -143,9 +143,9 @@ const {user,setUser} = useUser()
                 <>
                   <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
                     <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                      <span className="text-white font-medium">{user.name[0]}</span>
+                      <span className="text-white font-medium">{user?.name[0]}</span>
                     </div>
-                    <span className="font-medium text-gray-700">{user.name}</span>
+                    <span className="font-medium text-gray-700">{user?.name}</span>
                   </div>
                   <button
                     onClick={logout}

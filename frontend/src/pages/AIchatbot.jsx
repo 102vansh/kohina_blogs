@@ -128,7 +128,7 @@ const Chatbot = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/v1/ai/generatecontent',
+        'https://kohina-blogs.onrender.com/api/v1/ai/generatecontent',
         { topic: input },
         { withCredentials: true }
       );
