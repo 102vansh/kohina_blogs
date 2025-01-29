@@ -1,466 +1,59 @@
 
 
-
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-// import axios from 'axios';
-// import { FaThumbsUp, FaComment, FaEye, FaEdit, FaTrash } from 'react-icons/fa';
-
-// const BlogDetail = ({ blog }) => {
-//   const handleLike = async () => {
-//     try {
-//       const response = await axios.post(
-//         `http://localhost:3000/api/v1/blog/likeblog/${blog._id}`,
-//         {},
-//         {
-//           headers: {
-//             'Content-Type': 'multipart/form-data',
-//           },
-//           withCredentials: true,
-//         }
-//       );
-//       window.location.reload(); // Refresh the page to update likes
-//       console.log(response.data);
-//     } catch (error) {
-//       console.error('Error liking blog:', error);
-//     }
-//   };
-
-//   const handleDelete = async () => {
-//     try {
-//       await axios.delete(`/api/blogs/${blog._id}`); // Replace with your backend API endpoint
-//       window.location.href = '/'; // Redirect to home page after deletion
-//     } catch (error) {
-//       console.error('Error deleting blog:', error);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-//       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
-//         {/* Edit and Delete Buttons at the Top */}
-//         <div className="flex justify-end gap-4 mb-6">
-//           <Link
-//             to={`/blog/${blog._id}/edit`}
-//             className="text-green-500 hover:text-green-600 transition-colors duration-300"
-//           >
-//             <FaEdit className="text-2xl" />
-//           </Link>
-//           <button
-//             onClick={handleDelete}
-//             className="text-red-500 hover:text-red-600 transition-colors duration-300"
-//           >
-//             <FaTrash className="text-2xl" />
-//           </button>
-//         </div>
-
-//         {/* Blog Image */}
-//         {blog.images?.url && (
-//           <img
-//             src={blog.images.url}
-//             alt={blog.title}
-//             className="w-full h-96 object-cover rounded-lg mb-6"
-//           />
-//         )}
-
-//         {/* Blog Title */}
-//         <h1 className="text-3xl font-bold text-gray-900 mb-4">{blog.title}</h1>
-
-//         {/* Category Display */}
-//         <div className="text-gray-700 text-lg mb-6">
-//           <span className="font-semibold">Category:</span> {blog.category}
-//         </div>
-
-//         {/* Blog Content */}
-//         <p className="text-gray-700 text-lg mb-6">{blog.content}</p>
-
-//         {/* Blog Metadata (Likes, Comments, Views) */}
-//         <div className="flex items-center gap-6 text-gray-600 mb-6">
-//           <div onClick={handleLike} className="flex items-center gap-2">
-//             <FaThumbsUp  className="text-xl" />
-//             <span>{blog.likes.length} Likes</span>
-//           </div>
-//           <div className="flex items-center gap-2">
-//             <FaComment className="text-xl" />
-//             <span>{blog.comments.length} Comments</span>
-//           </div>
-//           <div className="flex items-center gap-2">
-//             <FaEye className="text-xl" />
-//             <span>{blog.views} Views</span>
-//           </div>
-//         </div>
-
-        
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default BlogDetail;
-
-// import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
-// import axios from 'axios';
-// import { FaThumbsUp, FaComment, FaEye, FaEdit, FaTrash } from 'react-icons/fa';
-
-// const BlogDetail = ({ blog }) => {
-//   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
-//   const [comment, setComment] = useState('');
-
-//   const handleLike = async () => {
-//     try {
-//       const response = await axios.post(
-//         `http://localhost:3000/api/v1/blog/likeblog/${blog._id}`,
-//         {},
-//         {
-//           headers: {
-//             'Content-Type': 'multipart/form-data',
-//           },
-//           withCredentials: true,
-//         }
-//       );
-//       window.location.reload(); // Refresh the page to update likes
-//       console.log(response.data);
-//     } catch (error) {
-//       console.error('Error liking blog:', error);
-//     }
-//   };
-  
-
-//   const handleDelete = async () => {
-//     try {
-//       await axios.delete(`http://localhost:3000/api/v1/blog/deleteblog/${blog._id}`,{withCredentials:true}); // Replace with your backend API endpoint
-//       window.location.href = '/'; // Redirect to home page after deletion
-
-//       console.log(response.data);
-//     } catch (error) {
-//       console.error('Error deleting blog:', error);
-//     }
-//   };
-
-//   const handleCommentSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       await axios.post(
-//         `http://localhost:3000/api/v1/blog/commentblog/${blog._id}`,
-//         { comment },
-//         {
-//           headers: {
-//             'Content-Type': 'multipart/form-data',
-//           },
-//           withCredentials: true,
-//         }
-//       );
-//       window.location.reload(); // Refresh the page to update comments
-//     } catch (error) {
-//       console.error('Error adding comment:', error);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-//       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
-//         {/* Edit and Delete Buttons at the Top */}
-//         <div className="flex justify-end gap-4 mb-6">
-//           <Link
-//             to={`/updateblog/${blog._id}`}
-//             className="text-green-500 hover:text-green-600 transition-colors duration-300"
-//           >
-//             <FaEdit className="text-2xl" />
-//           </Link>
-//           <button
-//             onClick={handleDelete}
-//             className="text-red-500 hover:text-red-600 transition-colors duration-300"
-//           >
-//             <FaTrash className="text-2xl" />
-//           </button>
-//         </div>
-
-//         {/* Blog Image */}
-//         {blog.images?.url && (
-//           <img
-//             src={blog.images.url}
-//             alt={blog.title}
-//             className="w-full h-96 object-cover rounded-lg mb-6"
-//           />
-//         )}
-
-//         {/* Blog Title */}
-//         <h1 className="text-3xl font-bold text-gray-900 mb-4">{blog.title}</h1>
-
-//         {/* Category Display */}
-//         <div className="text-gray-700 text-lg mb-6">
-//           <span className="font-semibold">Category:</span> {blog.category}
-//         </div>
-
-//         {/* Blog Content */}
-//         <p className="text-gray-700 text-lg mb-6">{blog.content}</p>
-
-//         {/* Blog Metadata (Likes, Comments, Views) */}
-//         <div className="flex items-center gap-6 text-gray-600 mb-6">
-//           <div onClick={handleLike} className="flex items-center gap-2">
-//             <FaThumbsUp className="text-xl" />
-//             <span>{blog.likes.length} Likes</span>
-//           </div>
-//           <div
-//             className="flex items-center gap-2 cursor-pointer"
-//             onClick={() => setIsCommentModalOpen(true)}
-//           >
-//             <FaComment className="text-xl" />
-//             <span>{blog.comments.length} Comments</span>
-//           </div>
-//           <div  className="flex items-center gap-2">
-//             <FaEye className="text-xl" />
-//             <span>{blog.views} Views</span>
-//           </div>
-//         </div>
-
-//         {/* Like Button */}
-//         {/* <button
-//           onClick={handleLike}
-//           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
-//         >
-//           Like
-//         </button> */}
-//       </div>
-
-//       {/* Comment Modal */}
-//       {isCommentModalOpen && (
-//         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-//           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-//             <h2 className="text-2xl font-bold text-gray-900 mb-4">Add a Comment</h2>
-//             <form onSubmit={handleCommentSubmit}>
-//               <textarea
-//                 value={comment}
-//                 onChange={(e) => setComment(e.target.value)}
-//                 placeholder="Write your comment..."
-//                 required
-//                 className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-//                 rows="4"
-//               />
-//               <div className="flex justify-end gap-4 mt-4">
-//                 <button
-//                   type="button"
-//                   onClick={() => setIsCommentModalOpen(false)}
-//                   className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors duration-300"
-//                 >
-//                   Cancel
-//                 </button>
-//                 <button
-//                   type="submit"
-//                   className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
-//                 >
-//                   Submit
-//                 </button>
-//               </div>
-//             </form>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default BlogDetail;
-
-// import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
-// import axios from 'axios';
-// import { FaThumbsUp, FaComment, FaEye, FaEdit, FaTrash } from 'react-icons/fa';
-
-// const BlogDetail = ({ blog }) => {
-//   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
-//   const [comment, setComment] = useState('');
-
-//   const handleLike = async () => {
-//     try {
-//       const response = await axios.post(
-//         `http://localhost:3000/api/v1/blog/likeblog/${blog._id}`,
-//         {},
-//         {
-//           headers: {
-//             'Content-Type': 'multipart/form-data',
-//           },
-//           withCredentials: true,
-//         }
-//       );
-//       window.location.reload(); // Refresh the page to update likes
-//       console.log(response.data);
-//     } catch (error) {
-//       console.error('Error liking blog:', error);
-//     }
-//   };
-
-//   const handleDelete = async () => {
-//     try {
-//       await axios.delete(`http://localhost:3000/api/v1/blog/deleteblog/${blog._id}`, {
-//         withCredentials: true,
-//       });
-//       window.location.href = '/'; // Redirect to home page after deletion
-//     } catch (error) {
-//       console.error('Error deleting blog:', error);
-//     }
-//   };
-
-//   const handleCommentSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       await axios.post(
-//         `http://localhost:3000/api/v1/blog/commentblog/${blog._id}`,
-//         { comment },
-//         {
-//           headers: {
-//             'Content-Type': 'multipart/form-data',
-//           },
-//           withCredentials: true,
-//         }
-//       );
-//       window.location.reload(); // Refresh the page to update comments
-//     } catch (error) {
-//       console.error('Error adding comment:', error);
-//     }
-//   };
-
-//   return (
-//     <div
-//       className="min-h-screen py-8 px-4 sm:px-6 lg:px-8"
-//       style={{
-//         backgroundImage: `url('https://img.freepik.com/free-photo/top-view-workspace-with-copy-space_23-2148236864.jpg?t=st=1737890705~exp=1737894305~hmac=9e8c347c3d2ebdef0f7fada7733b9dc7d8c8f7a038d5ddd71a12bb62c29763df&w=1380')`,
-//         backgroundSize: 'cover',
-//         backgroundPosition: 'center',
-//         backgroundRepeat: 'no-repeat',
-//       }}
-//     >
-//       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6 bg-opacity-90">
-//         {/* Edit and Delete Buttons at the Top */}
-//         <div className="flex justify-end gap-4 mb-6">
-//           <Link
-//             to={`/updateblog/${blog._id}`}
-//             className="text-green-500 hover:text-green-600 transition-colors duration-300"
-//           >
-//             <FaEdit className="text-2xl" />
-//           </Link>
-//           <button
-//             onClick={handleDelete}
-//             className="text-red-500 hover:text-red-600 transition-colors duration-300"
-//           >
-//             <FaTrash className="text-2xl" />
-//           </button>
-//         </div>
-
-//         {/* Blog Image */}
-//         {blog.images?.url && (
-//           <img
-//             src={blog.images.url}
-//             alt={blog.title}
-//             className="w-full h-96 object-cover rounded-lg mb-6"
-//           />
-//         )}
-
-//         {/* Blog Title */}
-//         <h1 className="text-3xl font-bold text-gray-900 mb-4">{blog.title}</h1>
-
-//         {/* Category Display */}
-//         <div className="text-gray-700 text-lg mb-6">
-//           <span className="font-semibold">Category:</span> {blog.category}
-//         </div>
-
-//         {/* Blog Content */}
-//         <p className="text-gray-700 text-lg mb-6">{blog.content}</p>
-
-//         {/* Blog Metadata (Likes, Comments, Views) */}
-//         <div className="flex items-center gap-6 text-gray-600 mb-6">
-//           <div onClick={handleLike} className="flex items-center gap-2">
-//             <FaThumbsUp className="text-xl" />
-//             <span>{blog.likes.length} Likes</span>
-//           </div>
-//           <div
-//             className="flex items-center gap-2 cursor-pointer"
-//             onClick={() => setIsCommentModalOpen(true)}
-//           >
-//             <FaComment className="text-xl" />
-//             <span>{blog.comments.length} Comments</span>
-//           </div>
-//           <div className="flex items-center gap-2">
-//             <FaEye className="text-xl" />
-//             <span>{blog.views} Views</span>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Comment Modal */}
-//       {isCommentModalOpen && (
-//         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-//           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-//             <h2 className="text-2xl font-bold text-gray-900 mb-4">Add a Comment</h2>
-//             <form onSubmit={handleCommentSubmit}>
-//               <textarea
-//                 value={comment}
-//                 onChange={(e) => setComment(e.target.value)}
-//                 placeholder="Write your comment..."
-//                 required
-//                 className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-//                 rows="4"
-//               />
-//               <div className="flex justify-end gap-4 mt-4">
-//                 <button
-//                   type="button"
-//                   onClick={() => setIsCommentModalOpen(false)}
-//                   className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors duration-300"
-//                 >
-//                   Cancel
-//                 </button>
-//                 <button
-//                   type="submit"
-//                   className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
-//                 >
-//                   Submit
-//                 </button>
-//               </div>
-//             </form>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default BlogDetail;
-
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaThumbsUp, FaComment, FaEye, FaEdit, FaTrash, FaShare, FaBookmark } from 'react-icons/fa';
 import axios from 'axios';
-import { FaThumbsUp, FaComment, FaEye, FaEdit, FaTrash } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+import { Heart } from 'lucide-react';
+import CommentSection from './CommentSection';
+import Getlike from './Getlike';
+
 
 const BlogDetail = ({ blog }) => {
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [comment, setComment] = useState('');
+  const[likes,setLikes] = useState([])
+  
+  const navigate  = useNavigate()
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const handleLike = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `http://localhost:3000/api/v1/blog/likeblog/${blog._id}`,
         {},
         {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          headers: { 'Content-Type': 'multipart/form-data' },
           withCredentials: true,
         }
       );
-      window.location.reload(); // Refresh the page to update likes
-      console.log(response.data);
+      window.location.reload();
     } catch (error) {
       console.error('Error liking blog:', error);
     }
   };
+  const getLike = async() =>{
+    try{
+const response  = await axios.get(`http://localhost:3000/api/v1/blog/getlike/${blog._id}`,{withCredentials:true})
+console.log(response.data)
+setLikes(response.data.likes)
+console.log(likes)
+
+    }catch(error){
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+getLike()
+  },[])
 
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:3000/api/v1/blog/deleteblog/${blog._id}`, {
         withCredentials: true,
       });
-      window.location.href = '/'; // Redirect to home page after deletion
+      window.location.href = '/';
     } catch (error) {
       console.error('Error deleting blog:', error);
     }
@@ -469,125 +62,177 @@ const BlogDetail = ({ blog }) => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+    const response  =  await axios.post(
         `http://localhost:3000/api/v1/blog/commentblog/${blog._id}`,
         { comment },
         {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          headers: { 'Content-Type': 'multipart/form-data' },
           withCredentials: true,
         }
       );
-      window.location.reload(); // Refresh the page to update comments
+      window.location.reload();
+    
+      console(response.data.blog)
     } catch (error) {
       console.error('Error adding comment:', error);
     }
   };
 
   return (
-    <div
-      className="min-h-screen py-8 px-4 sm:px-6 lg:px-8"
-      style={{
-        backgroundImage: `url('https://img.freepik.com/free-vector/social-media-background-with-hand-drawn-elements_23-2147825904.jpg?t=st=1737890297~exp=1737893897~hmac=51e7e26e200cbe83c9f23d64864e86384daea78e690db4652b8892a90bcf51ec&w=826')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed', // Ensures the background covers the entire screen
-      }}
-    >
-      <div className="max-w-3xl mx-auto bg-black rounded-lg shadow-lg p-6 bg-opacity-90">
-        {/* Edit and Delete Buttons at the Top */}
-        <div className="flex justify-end gap-4 mb-6">
-          <Link
-            to={`/updateblog/${blog._id}`}
-            className="text-green-500 hover:text-green-600 transition-colors duration-300"
-          >
-            <FaEdit className="text-2xl" />
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-white shadow-sm">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Link to="/" className="text-xl font-semibold text-gray-800">
+            Blog
           </Link>
-          <button
-            onClick={handleDelete}
-            className="text-red-500 hover:text-red-600 transition-colors duration-300"
-          >
-            <FaTrash className="text-2xl" />
-          </button>
-        </div>
-
-        {/* Blog Image */}
-        {blog.images?.url && (
-          <img
-            src={blog.images.url}
-            alt={blog.title}
-            className="w-full h-96 object-cover rounded-lg mb-6"
-          />
-        )}
-
-        {/* Blog Title */}
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">{blog.title}</h1>
-
-        {/* Category Display */}
-        <div className="text-gray-700 text-lg mb-6">
-          <span className="font-semibold">Category:</span> {blog.category}
-        </div>
-
-        {/* Blog Content */}
-        <p className="text-gray-700 text-lg mb-6">{blog.content}</p>
-
-        {/* Blog Metadata (Likes, Comments, Views) */}
-        <div className="flex items-center gap-6 text-gray-600 mb-6">
-          <div onClick={handleLike} className="flex items-center gap-2">
-            <FaThumbsUp className="text-xl" />
-            <span>{blog.likes.length} Likes</span>
+          <div className="flex items-center space-x-4">
+            <button className="p-2 hover:bg-gray-100 rounded-full">
+              <FaBookmark className="text-gray-600 text-xl" />
+            </button>
+            <button className="p-2 hover:bg-gray-100 rounded-full">
+              <FaShare className="text-gray-600 text-xl" />
+            </button>
           </div>
-          <div
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={() => setIsCommentModalOpen(true)}
-          >
-            <FaComment className="text-xl" />
-            <span>{blog.comments.length} Comments</span>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          {/* Author Section */}
+          <div className="p-4 flex items-center justify-between border-b">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                <span className="text-xl font-semibold text-gray-600">
+                  {blog?.author?.name[0]|| 'A'}
+                </span>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-800">{blog?.author.name|| 'Anonymous'}</p>
+                <p className="text-sm text-gray-500">Posted on {new Date(blog.createdAt).toLocaleDateString()}</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Link
+                to={`/updateblog/${blog._id}`}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <FaEdit className="text-gray-600 text-xl" />
+              </Link>
+              <button
+                onClick={handleDelete}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <FaTrash className="text-gray-600 text-xl" />
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <FaEye className="text-xl" />
-            <span>{blog.views} Views</span>
+
+          {/* Image Section */}
+          {blog.images?.url && (
+            <div className="relative">
+              <img
+                src={blog.images.url}
+                alt={blog.title}
+                className="w-full max-h-[600px] object-cover cursor-pointer"
+                onClick={() => setIsImageModalOpen(true)}
+              />
+            </div>
+          )}
+
+          {/* Content Section */}
+          <div className="p-6">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{blog.title}</h1>
+            <div className="mb-4">
+              <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                {blog.category}
+              </span>
+            </div>
+            <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{blog.content}</p>
+          </div>
+
+          {/* Engagement Section */}
+          <div className="px-6 py-4 border-t border-gray-100">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-6">
+                <button
+                  // onClick={getLike}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                   <Heart className="w-5 h-5" />
+                  <span>{blog.likes.length}</span>
+                </button>
+                <button
+                  onClick={() => setIsCommentModalOpen(true)}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  <FaComment />
+                  <span>{blog.comments.length}</span>
+                </button>
+                <div className="flex items-center space-x-2 text-gray-600">
+                  <FaEye />
+                  <span>{blog.views}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Comment Modal */}
       {isCommentModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Add a Comment</h2>
-            <form onSubmit={handleCommentSubmit}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl w-full max-w-lg mx-4 overflow-hidden">
+            <div className="p-4 border-b">
+              <h2 className="text-xl font-semibold text-gray-800">Add a Comment</h2>
+            </div>
+            <form onSubmit={handleCommentSubmit} className="p-4">
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Write your comment..."
-                required
-                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Write your thoughts..."
+                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                 rows="4"
               />
-              <div className="flex justify-end gap-4 mt-4">
+              <div className="flex justify-end space-x-3 mt-4">
                 <button
                   type="button"
                   onClick={() => setIsCommentModalOpen(false)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors duration-300"
+                  className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Submit
+                  Post Comment
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      {/* Image Modal */}
+      {isImageModalOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
+          onClick={() => setIsImageModalOpen(false)}
+        >
+          <img
+            src={blog.images.url}
+            alt={blog.title}
+            className="max-w-full max-h-[90vh] object-contain"
+          />
+        </div>
+      )}
+      {/* <CommentSection result = {result}/> */}
+      <Getlike likes={likes}/>
     </div>
   );
 };
 
 export default BlogDetail;
+

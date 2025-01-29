@@ -120,6 +120,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Createblogs = () => {
   const [title, setTitle] = useState('');
@@ -158,7 +159,9 @@ const Createblogs = () => {
 
       console.log('Blog created successfully:', response.data);
       navigate('/'); // Redirect to home or blogs page after creation
+      toast.success(response.data.message);
     } catch (err) {
+      toast.error(err.response.data.message);
       console.error('Error creating blog:', err);
       setError('Failed to create blog. Please try again.');
     } finally {

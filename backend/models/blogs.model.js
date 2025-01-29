@@ -27,11 +27,11 @@ const blogSchema = new mongoose.Schema({
       ],
       likes: [
         {
-          user: {
+          
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User', // Users who liked the post
           },
-        },
+        
       ],
       views: {
         type: Number,

@@ -49,6 +49,7 @@ import BlogDetailPage from './pages/BlogDetailPage';
 import Myblogs from './pages/Myblogs';
 import UpdateBlog from './components/UpdateBlog';
 import AIchatbot from './pages/AIchatbot';
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -69,34 +70,12 @@ function App() {
     <Route path='/myblogs' element={<Myblogs/>} />
     <Route path='/updateblog/:id' element={<UpdateBlog/>} />
     <Route path='/aibot' element={<AIchatbot/>} />
+    
   </Routes>
 
-      {/* <div className="flex items-center justify-center p-4 my-40">
-        <div className="max-w-4xl w-full bg-white rounded-xl shadow-lg flex overflow-hidden">
-          
-          <div className="hidden md:block w-1/2 p-8">
-          <img 
-             src={isLogin 
-               ? "https://img.freepik.com/free-vector/organic-flat-blog-post-illustration-with-people_23-2148955260.jpg?t=st=1737808608~exp=1737812208~hmac=da7e0371bebde3d1df6d1c9a6f86420deb22c3671490d6566176984c81a025ef&w=1380"
-              : "https://img.freepik.com/free-vector/blogging-concept-illustration_114360-1038.jpg?t=st=1737807234~exp=1737810834~hmac=ce989720bef237d92eb68efc456a9626471d4ca1df339ddaac36bf0d28827ef9&w=826"
-             }
-             alt="Workspace"
-             className="w-full h-full object-cover rounded-lg"
-       />
-          </div>
-
-          
-          <div className="w-full md:w-1/2 p-8">
-            {isLogin ? (
-              <Login onToggle={() => setIsLogin(false)} />
-            ) : (
-              <Registration onToggle={() => setIsLogin(true)} />
-            )}
-          </div>
-        </div>  */}
-
-
       
+
+      <Toaster />
     </div>
   );
 }

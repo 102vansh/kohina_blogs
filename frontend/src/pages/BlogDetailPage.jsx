@@ -71,7 +71,7 @@ const BlogDetailPage = () => {
 
        <h1 className=' font-bold text-3xl'>Comment Section </h1> 
          <div className="">
-          <CommentSection blogId={blog._id} comments={blog.comments} />
+          <CommentSection blogId={blog._id} comments={blog.comments._id} />
         </div> 
       </div>
     </div>

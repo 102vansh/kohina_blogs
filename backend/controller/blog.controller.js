@@ -1,6 +1,7 @@
 const Blogs  = require('../models/blogs.model')
 const {ErrorHandler} = require('../middleware/error')
-const User = require('../models/auth.model')
+const User = require('../models/auth.model');
+
 const cloudinary = require('cloudinary').v2;
 exports.createblog = async(req,res,next) =>{
     try{
@@ -46,7 +47,10 @@ res.status(201).json({
 }
 exports.getallblogs = async(req,res,next) =>{
     try{
-        const blogs = await Blogs.find();
+        const blogs = await Blogs.find().populate({
+          path: 'author',
+          select: 'name email'
+        });
         res.status(200).json({
             success:true,
             message:"All blogs fetched successfully",
@@ -127,45 +131,87 @@ exports.deleteblog = async(req,res,next) =>{
 //     }
 // }
 
-exports.likeblog = async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const userId = req.user._id;
-  
-      // Find the blog
-      const blog = await Blogs.findById(id);
-      console.log(blog);
-  
-      // Check if the user has already liked the blog
-      const userIndex = blog.likes.indexOf(userId);
-    //   console.log(userIndex);
-  
-      if (userIndex !== -1) {
-        // User has already liked the blog, so remove their ID (dislike)
-        blog.likes.splice(userIndex, 1); // Remove the user ID from the likes array
-        await blog.save();
-  
-        return res.status(200).json({
-          success: true,
-          message: "Blog disliked successfully",
-          blog,
-        });
-      } else {
-        // User has not liked the blog, so add their ID (like)
-        blog.likes.push(userId);
-        await blog.save();
-  
-        return res.status(200).json({
-          success: true,
-          message: "Blog liked successfully",
-          blog,
-        });
-      }
-    } catch (error) {
-      return next(error);
-    }
-  };
+// exports.likeblog = async (req, res, next) => {
+//     try {
+//       const { id } = req.params;
+//       const userId = req.user._id;
+//   const blog  = await Blogs.findById(id).populate({
+//     path: 'likes',
+//     select: 'name' 
+//   })
+//       // Find the blog
+//       if(blog.likes.includes(userId)){
+//         const index = blog.likes.indexOf(userId)
+//         blog.likes.splice(index,1)
+//         await blog.save()
+//         return res.status(201).json({
+//           success:true,
+//           message: "blog is unliked",
+//           blog
+//         })
+//       }else{
 
+//       blog.likes.push(userId)
+//       await blog.save()
+//       return res.status(201).json({
+//         success:true,
+//         message: "liked successful",
+//         blog
+//       })
+//     }
+//     } catch (error) {
+//       return next(error);
+//     }
+//   };
+
+
+exports.likeblog = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
+
+    // First find the blog
+    let blog = await Blogs.findById(id);
+    
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found"
+      });
+    }
+
+    // Handle like/unlike
+    if (blog.likes.includes(userId)) {
+      const index = blog.likes.indexOf(userId);
+      blog.likes.splice(index, 1);
+    } else {
+      blog.likes.push(userId);
+    }
+    
+    // Save the blog
+    await blog.save();
+    
+    // Fetch the updated blog with populated likes
+    const updatedBlog = await Blogs.findById(id)
+      .populate({
+        path: 'likes',
+        select: 'name email' // Select the fields you want from the User model
+      })
+      .populate({
+        path: 'comments.user',
+        select: 'name email'
+      });
+
+    return res.status(201).json({
+      success: true,
+      message: blog.likes.includes(userId) ? "liked successful" : "blog is unliked",
+      blog: updatedBlog
+    });
+
+  } catch (error) {
+    return next(error);
+  }
+};
 exports.commentblogs = async(req,res,next)=>{
     try{
 const {id}= req.params;
@@ -200,8 +246,9 @@ const updatedBlog = await Blogs.findById(id).populate({
 res.status(200).json({
     success:true,
     message:"Comment added successfully",
-    blog:updatedBlog
+    blog:updatedBlog.comments
     })
+    console.log(updatedBlog)
     }catch(error){
 return next(error);
     }
@@ -232,7 +279,9 @@ exports.incrementViewCount = async (req, res) => {
 exports.getblogbyid = async(req,res,next) =>{
     try{
         const {id} = req.params;
-        const blog = await Blogs.findById(id);
+        const blog = await Blogs.findById(id).populate({ path: 'author',
+          select: 'name email'
+        });
         res.status(200).json({
             success:true,
             message:"Blog fetched successfully",
@@ -242,3 +291,235 @@ exports.getblogbyid = async(req,res,next) =>{
         return next(error);
     }
 }
+
+ // Adjust the path as necessary
+
+exports.deleteComment = async (req, res, next) => {
+  try {
+    const { id } = req.params; // Blog ID from the URL
+    const blog = await Blogs.findById(id); // Find the blog by ID
+
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+
+    const { commentId } = req.body; // Comment ID from the request body
+    const comment = blog.comments.find(comment => comment._id.toString() === commentId);
+
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
+    }
+
+    // Check if the user is authorized to delete the comment
+    if (comment.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    // Remove the comment from the blog's comments array
+    blog.comments = blog.comments.filter(comment => comment._id.toString() !== commentId);
+
+    // Save the updated blog document
+    await blog.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Comment deleted successfully",
+      blog,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+
+exports.getCommentsController = async (req, res, next) => {
+  try {
+    const { id } = req.params; // Get the blog ID from the request parameters
+
+    // Find the blog and populate the comments.user field
+    const blog = await Blogs.findById(id).populate({
+      path: 'comments.user',
+      select: 'name email', // Select the fields you want to populate
+    });
+
+    // Check if the blog exists
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: 'Blog not found',
+      });
+    }
+
+    // Extract the comments from the blog
+    const comments = blog.comments;
+
+    // Return the comments in the response
+    return res.status(200).json({
+      success: true,
+      message: 'Comments fetched successfully',
+      comments,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+
+
+// exports.getLikesController = async (req, res, next) => {
+//   try {
+//     const { id } = req.params; // Get the blog ID from the request parameters
+
+//     // Find the blog and populate the likes.user field
+//     const blog = await Blogs.findById(id).populate({
+//       path: 'likes.user',
+//       select: 'name email', // Select the fields you want to populate
+//     });
+
+//     // Check if the blog exists
+//     if (!blog) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Blog not found',
+//       });
+//     }
+
+//     // Extract the likes from the blog
+//     const likes = blog.likes.map(like => ({
+//       _id: like._id,
+//       user: like.user ? {
+//         _id: like.user._id,
+//         name: like.user.name,
+//         email: like.user.email
+//       } : null
+//     }));
+
+//     // Return the likes in the response
+//     return res.status(200).json({
+//       success: true,
+//       message: 'Likes fetched successfully',
+//       likes
+//     });
+//   } catch (error) {
+//     return next(error);
+//   }
+// };
+
+// exports.getLikesController = async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+//     console.log('Finding blog with ID:', id);
+
+//     const blog = await Blogs.findById(id)
+//       .populate({
+//         path: 'likes',
+//         select: 'name email'
+//       });
+
+//     console.log('Found blog:', blog);
+//     console.log('Raw likes array:', blog.likes);
+    
+//     if (!blog) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Blog not found',
+//       });
+//     }
+
+//     // Check if likes array exists and has items
+//     if (!blog.likes || blog.likes.length === 0) {
+//       return res.status(200).json({
+//         success: true,
+//         message: 'No likes found',
+//         likes: [],
+//         totalLikes: 0
+//       });
+//     }
+
+//     // Log each like object to see what data we have
+//     blog.likes.forEach((like, index) => {
+//       console.log(`Like ${index}:`, {
+//         likeId: like._id,
+//         userId: like.user ? like.user._id : 'No user ID',
+//         userData: like.user
+//       });
+//     });
+
+//     const formattedLikes = blog.likes.map(like => ({
+//       _id: like._id,
+//       user: like.user ? {
+//         _id: like.user._id,
+//         name: like.user.name,
+//         email: like.user.email
+//       } : null
+//     }));
+
+//     return res.status(200).json({
+//       success: true,
+//       message: 'Likes fetched successfully',
+//       likes: formattedLikes,
+//       totalLikes: formattedLikes.length
+//     });
+
+//   } catch (error) {
+//     console.error('Error in getLikesController:', error);
+//     return next(error);
+//   }
+// };
+
+exports.getLikesController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    // First find the blog and then populate the likes field by looking up User model
+    const blog = await Blogs.findById(id).populate({
+      path: 'likes',
+      model: 'User',  // Explicitly specify the model
+      select: 'name email' // Select only the fields we need
+    });
+
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: 'Blog not found',
+      });
+    }
+
+    // If no likes, return empty array
+    if (!blog.likes || blog.likes.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: 'No likes found',
+        likes: [],
+        totalLikes: 0
+      });
+    }
+
+    // Format the likes array to include user details
+    const formattedLikes = blog.likes.map(user => ({
+      _id: user._id,
+      name: user.name,
+      email: user.email
+    }));
+
+    return res.status(200).json({
+      success: true,
+      message: 'Likes fetched successfully',
+      likes: formattedLikes,
+      totalLikes: formattedLikes.length
+    });
+
+  } catch (error) {
+    console.error('Error in getLikesController:', error);
+    return next(error);
+  }
+};

@@ -17,7 +17,7 @@ exports.generateContent = async (req, res) => {
           {
             parts: [
               {
-                text: `Write a detailed blog about ${topic}`,
+                text: ` ${topic}`,
               },
             ],
           },

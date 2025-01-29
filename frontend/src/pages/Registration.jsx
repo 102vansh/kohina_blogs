@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { User, Lock, Mail, UserCircle } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
 
 function Registration() {
   const [name, setName] = useState('');
@@ -27,21 +29,25 @@ function Registration() {
       setName('');
       setEmail('');
       setPassword('');
+      toast.success(response.data.message);
       navigate('/login');
     } catch (error) {
+      toast.error(error.response.data.message)
       console.log(error);
+     
     }
 
     console.log('Registration data:', { name, email, password, role });
   };
 
   return (
-    <div className="flex items-center justify-center p-4 my-40">
+    <div className="flex items-center justify-center min-h-screen">
       <div className="max-w-4xl w-full bg-white rounded-xl shadow-lg flex overflow-hidden">
         {/* Image Section */}
         <div className="hidden md:block w-1/2 p-8">
           <img
-            src="https://img.freepik.com/free-vector/blogging-concept-illustration_114360-1038.jpg?t=st=1737807234~exp=1737810834~hmac=ce989720bef237d92eb68efc456a9626471d4ca1df339ddaac36bf0d28827ef9&w=826"
+            src="https://img.freepik.com/free-vector/organic-flat-blog-post-illustration-with-people_23-2148955260.jpg
+"
             alt="Workspace"
             className="w-full h-full object-cover rounded-lg"
           />
