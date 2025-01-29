@@ -50,9 +50,9 @@ app.use(passport.session());
 passport.use(
   new GoogleStrategy(
     {
-      clientID: '805903193807-b9qk8lkbvi631s1rqv0i8hp44g2mrlc1.apps.googleusercontent.com',
-      clientSecret: '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',
-      callbackURL: 'http://localhost:3000/api/v1/auth/google/callback',
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: process.env.CLIENT_CALLBACK,
     },
     (accessToken, refreshToken, profile, done) => {
       // Save or retrieve user from your database
