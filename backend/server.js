@@ -97,6 +97,6 @@ app.use('/api/v1/ai',airouter)
 connectDB();
 
 app.use(errormiddleware);
-app.listen(port, (req,res) => {
+app.listen(port,'0.0.0.0', (req,res) => {
     console.log(`Server is running on port ${port}`);
 });
