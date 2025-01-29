@@ -36,7 +36,7 @@ app.use(cors({
 
 app.use(
   session({
-    secret: '123456789',
+    secret: process.env.SEC,
     resave: false,
     saveUninitialized: true,
   })
