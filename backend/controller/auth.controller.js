@@ -40,6 +40,10 @@ exports.login = async(req,res,next) => {
         const token = user.generateToken();
         res.status(200).cookie('token',token).json({
             success:true,
+            httpOnly: true,
+      secure: true,  // Required for production HTTPS
+      sameSite: 'none',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
             message:"User logged in successfully",
             user,
             token
