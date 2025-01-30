@@ -38,16 +38,20 @@ exports.login = async(req,res,next) => {
             return res.status(400).json({message: 'Invalid credentials'});
         }
         const token = user.generateToken();
-        res.status(200).cookie('token',token).json({
-            success:true,
+         res.cookie('token', token, {
             httpOnly: true,
-      secure: true,  // Required for production HTTPS
-      sameSite: 'none',
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-            message:"User logged in successfully",
+            secure: true,  // Required for production HTTPS
+            sameSite: 'none',
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        });
+        
+        // Send response
+        res.status(200).json({
+            success: true,
+            message: "User logged in successfully",
             user,
             token
-        })
+        });
     }catch(error){
         return next(error);
     }
