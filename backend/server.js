@@ -39,9 +39,7 @@ app.use(
     secret: process.env.SEC,
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI, // Your MongoDB connection string
-    }),
+    
     cookie: {
       sameSite: 'none',
       secure: true,
