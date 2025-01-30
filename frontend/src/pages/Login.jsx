@@ -103,7 +103,7 @@ function Login() {
               type="submit"
               className="w-full bg-black text-white py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-colors"
             >
-              Sign in
+              {loading? 'loading':' SignIn'}
             </button>
           </form>
           
@@ -114,7 +114,7 @@ function Login() {
                 onClick={() => navigate('/register')}
                 className="text-blue-500 hover:text-blue-600 font-medium"
               >
-                {loading? 'loading':' SignIn'}
+                SignUp
               </button>
             </p>
           </div>
