@@ -43,7 +43,7 @@ exports.login = async(req,res,next) => {
             httpOnly: true,
       secure: true,  // Required for production HTTPS
       sameSite: 'none',
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
             message:"User logged in successfully",
             user,
             token
