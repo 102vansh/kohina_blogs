@@ -49,13 +49,7 @@ app.use(
 );
 
 
-app.use(
-  session({
-    secret: process.env.SEC,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+
 
 // Passport initialization
 app.use(passport.initialize());
