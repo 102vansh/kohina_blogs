@@ -15,7 +15,7 @@ const blogrouter = require('./routers/blog.router')
 const{errormiddleware} = require('./middleware/error')
 const app = express();
 dotenv.config({path: './config.env'});
-const port = process.env.PORT 
+const port = process.env.PORT || 3000
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
