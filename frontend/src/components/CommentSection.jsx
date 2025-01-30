@@ -105,7 +105,7 @@ const CommentSection = ({ blogId }) => {
     try{
       console.log(result)
       console.log(result._id)
-    const response = await axios.post(`http://localhost:3000/api/v1/blog/deletecomment/${blogId}`,{commentId:id},{
+    const response = await axios.post(`https://kohina-blogs.onrender.com/api/v1/blog/deletecomment/${blogId}`,{commentId:id},{
       headers: {
         'Content-Type': 'multipart/form-data',
       },
