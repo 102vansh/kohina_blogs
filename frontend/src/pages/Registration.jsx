@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 
 
 function Registration() {
+  const [loading,setLoading] = useState(false)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,6 +16,7 @@ function Registration() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       const response = await axios.post('https://kohina-blogs.onrender.com/api/v1/auth/register', {
@@ -25,13 +27,14 @@ function Registration() {
       });
 
       console.log(response.data);
-
+setLoading(false)
       setName('');
       setEmail('');
       setPassword('');
       toast.success(response.data.message);
       navigate('/login');
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message)
       console.log(error);
      
@@ -125,7 +128,7 @@ function Registration() {
                 onClick={() => navigate('/login')}
                 className="text-blue-500 hover:text-blue-600 font-medium"
               >
-                Sign in
+                {loading? 'loading':' Sign up'}
               </button>
             </p>
           </div>
