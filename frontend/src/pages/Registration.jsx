@@ -117,7 +117,7 @@ setLoading(false)
               type="submit"
               className="w-full bg-black text-white py-3 rounded-lg hover:bg-blue-600 transition-colors"
             >
-              Sign up
+              {loading? 'loading':' Sign up'}
             </button>
           </form>
 
@@ -128,7 +128,7 @@ setLoading(false)
                 onClick={() => navigate('/login')}
                 className="text-blue-500 hover:text-blue-600 font-medium"
               >
-                {loading? 'loading':' Sign up'}
+                SignIn
               </button>
             </p>
           </div>
