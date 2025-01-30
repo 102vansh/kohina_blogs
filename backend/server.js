@@ -27,9 +27,10 @@ app.use(
 );
 
 app.use(cors({
-  origin:"*",
+  origin: ["https://wonderwhisper.netlify.app", "https://kohina-blogs.onrender.com"],
   methods:["GET","POST","PUT","DELETE"],
-  credentials:true,
+  credentials: true,
+ 
 
 }));
 
