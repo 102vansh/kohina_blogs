@@ -46,7 +46,7 @@ const BlogDetailPage = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/v1/blog/getblog/${id}`, { withCredentials: true });
+        const response = await axios.get(`https://kohina-blogs.onrender.com/api/v1/blog/getblog/${id}`, { withCredentials: true });
         setBlog(response.data.blog);
       } catch (error) {
         console.error('Error fetching blog:', error);
