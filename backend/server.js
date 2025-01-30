@@ -27,7 +27,7 @@ app.use(
 );
 
 app.use(cors({
-  origin:"https://kohina-blogs.onrender.com",
+  origin:"*",
   methods:["GET","POST","PUT","DELETE"],
   credentials:true,
 
