@@ -66,7 +66,7 @@ getLike()
         `https://kohina-blogs.onrender.com/api/v1/blog/commentblog/${blog._id}`,
         { comment },
         {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
         }
       );
