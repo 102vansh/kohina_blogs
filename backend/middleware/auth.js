@@ -9,6 +9,7 @@ const isauthenticated = async(req,res,next) => {
         if(!token){
             return res.status(401).json({message: 'Please login to access this resource'});
         }
+        console.log(token)
         const decoded = jwt.verify(token,process.env.JWT_SECRET);
         console.log(decoded);
         req.user = await User.findById(decoded._id);
