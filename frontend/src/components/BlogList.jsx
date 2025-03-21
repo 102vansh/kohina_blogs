@@ -50,7 +50,7 @@ const BlogList = ({ blogs }) => {
     e.preventDefault();
     try {
     const response  =  await axios.post(
-        `https://kohina-blogs.onrender.com/api/v1/blog/commentblog/${id}`,
+        `http://localhost:3000/api/v1/blog/commentblog/${id}`,
         { comment },
         {
           headers: { 'Content-Type': 'multipart/form-data' },

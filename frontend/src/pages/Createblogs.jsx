@@ -30,7 +30,7 @@ const Createblogs = () => {
       console.log(title, content, images);
 
       const response = await axios.post(
-        'https://kohina-blogs.onrender.com/api/v1/blog/createblog',
+        'http://localhost:3000/api/v1/blog/createblog',
         formData,
         {
           headers: {

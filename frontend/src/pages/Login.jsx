@@ -8,8 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import GoogleLogin from './GoogleLogin';
 import toast from 'react-hot-toast';
 import { useUser } from '../components/UserContext';
+import { FlatESLint } from 'eslint/use-at-your-own-risk';
 
 function Login() {
+  const[loading,setLoading] = useState(flase)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -17,9 +19,10 @@ function Login() {
   const { setUser } = useUser();
 
   const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
-      const response = await axios.post('https://kohina-blogs.onrender.com/api/v1/auth/login', {
+      const response = await axios.post('http://localhost:3000/api/v1/auth/login', {
         email,
         password,
       }, {
@@ -34,6 +37,7 @@ function Login() {
       toast.success('Login successful');
       setUser(response.data);
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message);
       console.log(error);
     }
@@ -110,7 +114,7 @@ function Login() {
                 onClick={() => navigate('/register')}
                 className="text-blue-500 hover:text-blue-600 font-medium"
               >
-                Sign up
+               {loading? 'loading':' Sign up'}
               </button>
             </p>
           </div>

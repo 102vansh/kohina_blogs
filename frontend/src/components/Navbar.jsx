@@ -43,7 +43,7 @@ const {user,setUser} = useUser()
 
   const logout = async () => {
     try {
-      await axios.get('https://kohina-blogs.onrender.com/api/v1/auth/logout', { withCredentials: true });
+      await axios.get('http://localhost:3000/api/v1/auth/logout', { withCredentials: true });
       navigate('/login');
       setUser('')
     } catch (error) {

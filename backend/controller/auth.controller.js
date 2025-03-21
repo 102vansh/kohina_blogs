@@ -53,6 +53,8 @@ exports.logout =async(req,res,next)=>{
 res.status(200).cookie('token',null,{
     expires:new Date(Date.now()),
    httpOnly:true,
+   samesite:'none',
+   secure:true,
 })
    .json({
     success:true,

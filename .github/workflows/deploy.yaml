@@ -1,0 +1,71 @@
+name: CI/CD Pipeline for MERN Stack with Docker Hub & KIND
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DOCKER_HUB_USERNAME: vansh955
+  BACKEND_IMAGE_NAME: mern-backend
+  FRONTEND_IMAGE_NAME: mern-frontend
+  KIND_CLUSTER_NAME: mern-cluster
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    # ✅ Step 1: Checkout Code
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    # ✅ Step 2: Set Up Docker Buildx
+    - name: Set Up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    # ✅ Step 3: Login to Docker Hub
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # ✅ Step 4: Build and Push Backend Docker Image
+    - name: Build and Push Backend Image
+      run: |
+        docker build -t $DOCKER_HUB_USERNAME/$BACKEND_IMAGE_NAME:v1 ./backend
+        docker push $DOCKER_HUB_USERNAME/$BACKEND_IMAGE_NAME:v1
+
+    # ✅ Step 5: Build and Push Frontend Docker Image
+    - name: Build and Push Frontend Image
+      run: |
+        docker build -t $DOCKER_HUB_USERNAME/$FRONTEND_IMAGE_NAME:v1 ./frontend
+        docker push $DOCKER_HUB_USERNAME/$FRONTEND_IMAGE_NAME:v1
+
+    # ✅ Step 6: Set Up KIND Cluster
+    - name: Create KIND Cluster
+      run: |
+        kind create cluster --name $KIND_CLUSTER_NAME --config k8s/kind-config.yaml
+
+    # ✅ Step 7: Load Docker Images to KIND Cluster
+    - name: Load Docker Images to KIND Cluster
+      run: |
+        kind load docker-image $DOCKER_HUB_USERNAME/$BACKEND_IMAGE_NAME:v1 --name $KIND_CLUSTER_NAME
+        kind load docker-image $DOCKER_HUB_USERNAME/$FRONTEND_IMAGE_NAME:v1 --name $KIND_CLUSTER_NAME
+
+    # ✅ Step 8: Deploy Backend to KIND Cluster
+    - name: Deploy Backend to KIND
+      run: |
+        kubectl apply -f k8s/backend-deployment.yaml
+        kubectl apply -f k8s/backend-service.yaml
+
+    # ✅ Step 9: Deploy Frontend to KIND Cluster
+    - name: Deploy Frontend to KIND
+      run: |
+        kubectl apply -f k8s/frontend-deployment.yaml
+        kubectl apply -f k8s/frontend-service.yaml
+
+    # ✅ Step 10: Verify Deployments
+    - name: Verify Deployment
+      run: |
+        kubectl get pods -A

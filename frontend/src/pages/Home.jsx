@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get('https://kohina-blogs.onrender.com/api/v1/blog/getallblogs', { withCredentials: true });
+        const response = await axios.get('http://localhost:3000/api/v1/blog/getallblogs', { withCredentials: true });
         setBlogs(response.data.blogs);
       } catch (error) {
         console.error('Error fetching blogs:', error);

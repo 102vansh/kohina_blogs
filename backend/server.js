@@ -27,18 +27,13 @@ app.use(
 );
 
 app.use(cors({
-  origin:"'https://kohina-blogs.onrender.com'",
+  origin: 'http://localhost:5173',
+  
   methods:["GET","POST","PUT","DELETE"],
   credentials:true,
 
 }));
-res.cookie('token', token, {
-  httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
-  secure: true, // Only send over HTTPS
-  sameSite: 'None', // Allow cross-site requests
-  domain: 'kohina-blogs.onrender.com', // Set your production domain
-  maxAge: 24 * 60 * 60 * 1000, // 1 day
-});
+
 
 
 app.use(

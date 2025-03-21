@@ -7,7 +7,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('https://kohina-blogs.onrender.com/api/v1/auth/user', {
+        const response = await axios.get('http://localhost:3000/api/v1/auth/user', {
           withCredentials: true,
         });
         setUser(response.data);
